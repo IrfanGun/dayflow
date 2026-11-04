@@ -1,0 +1,23 @@
+# Go build outputs
+/build/
+/dailyflow.exe
+/DailyFlow.exe
+*.test
+coverage.out
+
+# Wails generated bindings
+/frontend/wailsjs/
+
+# Local application data
+/DailyFlow-data/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# Editor and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
