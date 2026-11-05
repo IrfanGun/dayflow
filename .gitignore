@@ -8,6 +8,10 @@ coverage.out
 # Wails generated bindings
 /frontend/wailsjs/
 
+# Wails v3 generated build state
+/.wails/
+/frontend/package.json.md5
+
 # Local application data
 /DailyFlow-data/
 

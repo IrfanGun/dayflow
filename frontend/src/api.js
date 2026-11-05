@@ -1,5 +1,7 @@
-// In Wails the Go bridge is injected into window.go. In a normal browser,
-// use an isolated localStorage preview so designers can test UI without Go.
+// Use generated Wails 3 bindings in the desktop app and isolated localStorage
+// data in a normal browser preview.
+import * as AppBinding from '../bindings/dailyflow/app.js';
+
 const key = 'dailyflow-svelte-preview-v1';
 const today = () => {const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`};
 const seed = () => ({
@@ -26,10 +28,20 @@ const mock={
   async Day(date){const d=data();const entries=d.tasks.filter(t=>occurs(t,date)).map(task=>({task,result:d.results.find(r=>r.taskId===task.id&&r.date===date)||{taskId:task.id,date,done:false,activity:'',output:'',summary:'',actualMinutes:0}})).sort((a,b)=>a.task.start.localeCompare(b.task.start));const done=entries.filter(e=>e.result.done).length;return {date,entries,total:entries.length,done,percent:entries.length?Math.round(done/entries.length*100):0,summary:entries.map(e=>e.result.summary).filter(Boolean).join('\n')}},
   async SaveTask(task){if(!task.title?.trim())throw Error('Title is required');const d=data();if(!task.id)task.id=crypto.randomUUID();const i=d.tasks.findIndex(t=>t.id===task.id);if(i<0)d.tasks.push(task);else d.tasks[i]=task;write(d)},
   async DeleteTask(id){const d=data();d.tasks=d.tasks.filter(t=>t.id!==id);d.results=d.results.filter(r=>r.taskId!==id);write(d)},
-  async SaveResult(r){const d=data();const i=d.results.findIndex(x=>x.taskId===r.taskId&&x.date===r.date);if(i<0)d.results.push(r);else d.results[i]=r;write(d)},
+  async SaveResult(r){if(r.done&&!r.activity?.trim())throw Error('Activity is required before completing a task');const d=data();const i=d.results.findIndex(x=>x.taskId===r.taskId&&x.date===r.date);if(i<0)d.results.push(r);else d.results[i]=r;write(d)},
+  async SaveAIEvaluation(taskID,date,score,evaluation){const d=data();const result=d.results.find(x=>x.taskId===taskID&&x.date===date&&x.done);if(!result)throw Error('Completed activity result was not found');result.aiScore=score;result.aiEvaluation=evaluation;write(d)},
+  async GetAISettings(){return {defaultProvider:'',providers:{openai:{connected:false,model:'gpt-6-luna'},gemini:{connected:false,model:'gemini-3.8-flash'},groq:{connected:false,model:'openai/gpt-oss-120b'}}}},
+  async ConnectAI(){throw Error('AI settings are available in the DailyFlow desktop app, not browser preview.')},
+  async SetAIDefaultProvider(){throw Error('AI settings are available in the DailyFlow desktop app, not browser preview.')},
+  async SetAIProviderModel(){throw Error('AI settings are available in the DailyFlow desktop app, not browser preview.')},
+  async DisconnectAI(){return {defaultProvider:'',providers:{openai:{connected:false,model:'gpt-6-luna'},gemini:{connected:false,model:'gemini-3.8-flash'},groq:{connected:false,model:'openai/gpt-oss-120b'}}}},
+  async EvaluateActivity(){throw Error('AI evaluation is available in the DailyFlow desktop app.')},
+  async GetTrayIconEnabled(){return JSON.parse(localStorage.getItem('dailyflow-tray-icon-enabled')??'true')},
+  async SetTrayIconEnabled(enabled){localStorage.setItem('dailyflow-tray-icon-enabled',JSON.stringify(enabled))},
   async ToggleOverview(){window.dailyFlowSetMini?.(true)},
+  async OpenActivityResult(taskID,date){window.dailyFlowSetMini?.(false);await window.dailyFlowOpenResult?.(taskID,date)},
   async RestoreFull(){window.dailyFlowSetMini?.(false)},
   async ExitApp(){window.alert('Preview only: close the browser tab to exit.')}
 };
-export const isPreview = !window.go?.main?.App;
-export const api = new Proxy({}, {get:(_,method)=>(...args)=>(window.go?.main?.App||mock)[method](...args)});
+export const isPreview = !window._wails;
+export const api = new Proxy({}, {get:(_,method)=>(...args)=>isPreview?mock[method](...args):AppBinding[method](...args)});
