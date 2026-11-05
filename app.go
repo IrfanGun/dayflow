@@ -309,16 +309,16 @@ func (a *App) beforeClose(event *application.WindowEvent) {
 	if a.quitting.Load() {
 		return
 	}
-	a.enterWidget()
 	event.Cancel()
+	go a.enterWidget()
 }
 
 func (a *App) beforeWidgetClose(event *application.WindowEvent) {
 	if a.quitting.Load() {
 		return
 	}
-	a.RestoreFull()
 	event.Cancel()
+	go a.RestoreFull()
 }
 
 func (a *App) enterWidget() {

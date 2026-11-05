@@ -120,7 +120,7 @@
   async function enterMini(){try{await api.ToggleOverview()}catch(e){error=String(e)}}
   async function toggleTrayIcon(){const next=!trayIconEnabled;traySettingsBusy=true;try{await api.SetTrayIconEnabled(next);trayIconEnabled=next;error=''}catch(e){error=String(e)}finally{traySettingsBusy=false}}
   async function restore(){try{await api.RestoreFull()}catch(e){error=String(e)}}
-  async function exit(){if(confirm('Exit DailyFlow completely?'))await api.ExitApp()}
+  async function exit(){try{await api.ExitApp()}catch(e){error=String(e)}}
   function toggleWeekday(n){editing.weekdays=editing.weekdays.includes(n)?editing.weekdays.filter(x=>x!==n):[...editing.weekdays,n]}
 </script>
 
