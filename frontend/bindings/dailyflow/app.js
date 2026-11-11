@@ -11,11 +11,20 @@ import { Call as $Call, CancellablePromise as $CancellablePromise, Create as $Cr
 import * as $models from "./models.js";
 
 /**
+ * @returns {$CancellablePromise<$models.Project[]>}
+ */
+export function AllProjects() {
+    return $Call.ByID(980395494).then(/** @type {($result: any) => any} */(($result) => {
+        return $$createType1($result);
+    }));
+}
+
+/**
  * @returns {$CancellablePromise<$models.Result[]>}
  */
 export function AllResults() {
     return $Call.ByID(42205666).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType1($result);
+        return $$createType3($result);
     }));
 }
 
@@ -24,8 +33,17 @@ export function AllResults() {
  */
 export function AllTasks() {
     return $Call.ByID(3897187662).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType3($result);
+        return $$createType5($result);
     }));
+}
+
+/**
+ * @param {string} taskID
+ * @param {string} projectID
+ * @returns {$CancellablePromise<void>}
+ */
+export function AssignTaskToProject(taskID, projectID) {
+    return $Call.ByID(1253465557, taskID, projectID);
 }
 
 /**
@@ -36,7 +54,7 @@ export function AllTasks() {
  */
 export function ConnectAI(provider, apiKey) {
     return $Call.ByID(700350859, provider, apiKey).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType4($result);
+        return $$createType6($result);
     }));
 }
 
@@ -46,8 +64,34 @@ export function ConnectAI(provider, apiKey) {
  */
 export function Day(date) {
     return $Call.ByID(1319793925, date).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType5($result);
+        return $$createType7($result);
     }));
+}
+
+/**
+ * @param {string} id
+ * @returns {$CancellablePromise<void>}
+ */
+export function DeleteProject(id) {
+    return $Call.ByID(3379369923, id);
+}
+
+/**
+ * @param {string} projectID
+ * @param {string} objectiveID
+ * @returns {$CancellablePromise<void>}
+ */
+export function DeleteProjectObjective(projectID, objectiveID) {
+    return $Call.ByID(2834334014, projectID, objectiveID);
+}
+
+/**
+ * @param {string} taskID
+ * @param {string} date
+ * @returns {$CancellablePromise<void>}
+ */
+export function DeleteResult(taskID, date) {
+    return $Call.ByID(1490874555, taskID, date);
 }
 
 /**
@@ -64,7 +108,7 @@ export function DeleteTask(id) {
  */
 export function DisconnectAI(provider) {
     return $Call.ByID(3968936589, provider).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType4($result);
+        return $$createType6($result);
     }));
 }
 
@@ -89,8 +133,22 @@ export function ExitApp() {
  */
 export function GetAISettings() {
     return $Call.ByID(84577668).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType4($result);
+        return $$createType6($result);
     }));
+}
+
+/**
+ * @returns {$CancellablePromise<boolean>}
+ */
+export function GetAutoStartEnabled() {
+    return $Call.ByID(2185172401);
+}
+
+/**
+ * @returns {$CancellablePromise<boolean>}
+ */
+export function GetShouldPromptForName() {
+    return $Call.ByID(3901724274);
 }
 
 /**
@@ -98,6 +156,13 @@ export function GetAISettings() {
  */
 export function GetTrayIconEnabled() {
     return $Call.ByID(1834275679);
+}
+
+/**
+ * @returns {$CancellablePromise<string>}
+ */
+export function GetUserName() {
+    return $Call.ByID(629677175);
 }
 
 /**
@@ -120,11 +185,29 @@ export function RestoreFull() {
  * @param {string} taskID
  * @param {string} date
  * @param {number} score
+ * @param {number} growthPoints
  * @param {string} evaluation
  * @returns {$CancellablePromise<void>}
  */
-export function SaveAIEvaluation(taskID, date, score, evaluation) {
-    return $Call.ByID(1081322852, taskID, date, score, evaluation);
+export function SaveAIEvaluation(taskID, date, score, growthPoints, evaluation) {
+    return $Call.ByID(1081322852, taskID, date, score, growthPoints, evaluation);
+}
+
+/**
+ * @param {$models.Project} project
+ * @returns {$CancellablePromise<void>}
+ */
+export function SaveProject(project) {
+    return $Call.ByID(1642150229, project);
+}
+
+/**
+ * @param {string} projectID
+ * @param {$models.Objective} objective
+ * @returns {$CancellablePromise<void>}
+ */
+export function SaveProjectObjective(projectID, objective) {
+    return $Call.ByID(4237633480, projectID, objective);
 }
 
 /**
@@ -149,7 +232,7 @@ export function SaveTask(t) {
  */
 export function SetAIDefaultProvider(provider) {
     return $Call.ByID(815113179, provider).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType4($result);
+        return $$createType6($result);
     }));
 }
 
@@ -160,8 +243,26 @@ export function SetAIDefaultProvider(provider) {
  */
 export function SetAIProviderModel(provider, model) {
     return $Call.ByID(698173833, provider, model).then(/** @type {($result: any) => any} */(($result) => {
-        return $$createType4($result);
+        return $$createType6($result);
     }));
+}
+
+/**
+ * @param {boolean} enabled
+ * @returns {$CancellablePromise<void>}
+ */
+export function SetAutoStartEnabled(enabled) {
+    return $Call.ByID(2696924877, enabled);
+}
+
+/**
+ * @param {string} projectID
+ * @param {string} objectiveID
+ * @param {boolean} done
+ * @returns {$CancellablePromise<void>}
+ */
+export function SetProjectObjectiveDone(projectID, objectiveID, done) {
+    return $Call.ByID(2182943655, projectID, objectiveID, done);
 }
 
 /**
@@ -173,6 +274,14 @@ export function SetTrayIconEnabled(enabled) {
 }
 
 /**
+ * @param {string} name
+ * @returns {$CancellablePromise<void>}
+ */
+export function SetUserName(name) {
+    return $Call.ByID(152614395, name);
+}
+
+/**
  * Used by the mini overview button and by the window close handler.
  * @returns {$CancellablePromise<void>}
  */
@@ -181,9 +290,11 @@ export function ToggleOverview() {
 }
 
 // Private type creation functions
-const $$createType0 = $models.Result.createFrom;
+const $$createType0 = $models.Project.createFrom;
 const $$createType1 = $Create.Array($$createType0);
-const $$createType2 = $models.Task.createFrom;
+const $$createType2 = $models.Result.createFrom;
 const $$createType3 = $Create.Array($$createType2);
-const $$createType4 = $models.AISettings.createFrom;
-const $$createType5 = $models.Day.createFrom;
+const $$createType4 = $models.Task.createFrom;
+const $$createType5 = $Create.Array($$createType4);
+const $$createType6 = $models.AISettings.createFrom;
+const $$createType7 = $models.Day.createFrom;

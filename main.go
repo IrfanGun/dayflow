@@ -35,15 +35,19 @@ func main() {
 		Name: "widget", Title: "DailyFlow Tasks", Width: widgetWidth, Height: widgetHeight,
 		MinWidth: widgetWidth, MinHeight: widgetHeight, MaxWidth: widgetWidth, MaxHeight: widgetHeight,
 		URL: "/?widget=1", InitialPosition: application.WindowCentered, AlwaysOnTop: false, Frameless: true,
-		Windows: application.WindowsWindow{HiddenOnTaskbar: true},
-		BackgroundType: application.BackgroundTypeTransparent,
+		Windows:          application.WindowsWindow{HiddenOnTaskbar: true},
+		BackgroundType:   application.BackgroundTypeTransparent,
 		BackgroundColour: application.NewRGBA(255, 255, 255, 0),
 	})
 	app.wailsApp.Event.OnApplicationEvent(events.Common.ApplicationStarted, func(_ *application.ApplicationEvent) {
 		if app.trayIconEnabled {
 			setupTray(app)
 		}
-		app.enterWidget()
+		if app.GetShouldPromptForName() {
+			app.RestoreFull()
+		} else {
+			app.enterWidget()
+		}
 	})
 	app.window.RegisterHook(events.Common.WindowClosing, app.beforeClose)
 	app.widgetWindow.RegisterHook(events.Common.WindowClosing, app.beforeWidgetClose)

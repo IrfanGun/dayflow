@@ -15,5 +15,7 @@ frontend:
     typescript: false
     interfaces: false
     output: bindings
+windows:
+  icon: assets/appicon.ico
 build:
   output: build/bin

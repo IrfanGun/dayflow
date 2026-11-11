@@ -7,6 +7,7 @@
     "dev": "vite --host 127.0.0.1",
     "predev": "npm install",
     "build": "vite build",
+    "test:productivity": "node --test src/productivity.test.js",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -18,6 +19,7 @@
     "@tiptap/pm": "^3.32.2",
     "@tiptap/starter-kit": "^3.32.2",
     "@wailsio/runtime": "3.1.0",
+    "apexcharts": "^6.6.1",
     "lucide-svelte": "^0.468.0",
     "svelte": "^5.0.0"
   },

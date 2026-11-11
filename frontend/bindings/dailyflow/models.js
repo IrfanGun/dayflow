@@ -190,6 +190,129 @@ export class Entry {
     }
 }
 
+export class Objective {
+    /**
+     * Creates a new Objective instance.
+     * @param {Partial<Objective>} [$$source = {}] - The source object to create the Objective.
+     */
+    constructor($$source = {}) {
+        if (!("id" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["id"] = "";
+        }
+        if (!("title" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["title"] = "";
+        }
+        if (!("done" in $$source)) {
+            /**
+             * @member
+             * @type {boolean}
+             */
+            this["done"] = false;
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new Objective instance from a string or object.
+     * @param {any} [$$source = {}]
+     * @returns {Objective}
+     */
+    static createFrom($$source = {}) {
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        return new Objective(/** @type {Partial<Objective>} */($$parsedSource));
+    }
+}
+
+export class Project {
+    /**
+     * Creates a new Project instance.
+     * @param {Partial<Project>} [$$source = {}] - The source object to create the Project.
+     */
+    constructor($$source = {}) {
+        if (!("id" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["id"] = "";
+        }
+        if (!("name" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["name"] = "";
+        }
+        if (/** @type {any} */(false)) {
+            /**
+             * @member
+             * @type {Objective[] | undefined}
+             */
+            this["objectives"] = undefined;
+        }
+        if (!("created" in $$source)) {
+            /**
+             * @member
+             * @type {string}
+             */
+            this["created"] = "";
+        }
+        if (/** @type {any} */(false)) {
+            /**
+             * @member
+             * @type {number | undefined}
+             */
+            this["level"] = undefined;
+        }
+        if (/** @type {any} */(false)) {
+            /**
+             * @member
+             * @type {number | undefined}
+             */
+            this["xp"] = undefined;
+        }
+        if (/** @type {any} */(false)) {
+            /**
+             * @member
+             * @type {string | undefined}
+             */
+            this["evaluationData"] = undefined;
+        }
+        if (/** @type {any} */(false)) {
+            /**
+             * @member
+             * @type {string | undefined}
+             */
+            this["evaluatedAt"] = undefined;
+        }
+
+        Object.assign(this, $$source);
+    }
+
+    /**
+     * Creates a new Project instance from a string or object.
+     * @param {any} [$$source = {}]
+     * @returns {Project}
+     */
+    static createFrom($$source = {}) {
+        const $$createField2_0 = $$createType7;
+        let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
+        if ("objectives" in $$parsedSource) {
+            $$parsedSource["objectives"] = $$createField2_0($$parsedSource["objectives"]);
+        }
+        return new Project(/** @type {Partial<Project>} */($$parsedSource));
+    }
+}
+
 export class Result {
     /**
      * Creates a new Result instance.
@@ -262,6 +385,13 @@ export class Result {
         if (/** @type {any} */(false)) {
             /**
              * @member
+             * @type {number | null | undefined}
+             */
+            this["aiGrowthPoints"] = undefined;
+        }
+        if (/** @type {any} */(false)) {
+            /**
+             * @member
              * @type {string | undefined}
              */
             this["aiEvaluation"] = undefined;
@@ -293,6 +423,13 @@ export class Task {
              * @type {string}
              */
             this["id"] = "";
+        }
+        if (/** @type {any} */(false)) {
+            /**
+             * @member
+             * @type {string | undefined}
+             */
+            this["projectId"] = undefined;
         }
         if (!("title" in $$source)) {
             /**
@@ -376,10 +513,10 @@ export class Task {
      * @returns {Task}
      */
     static createFrom($$source = {}) {
-        const $$createField7_0 = $$createType6;
+        const $$createField8_0 = $$createType8;
         let $$parsedSource = typeof $$source === 'string' ? JSON.parse($$source) : $$source;
         if ("weekdays" in $$parsedSource) {
-            $$parsedSource["weekdays"] = $$createField7_0($$parsedSource["weekdays"]);
+            $$parsedSource["weekdays"] = $$createField8_0($$parsedSource["weekdays"]);
         }
         return new Task(/** @type {Partial<Task>} */($$parsedSource));
     }
@@ -392,4 +529,6 @@ const $$createType2 = Entry.createFrom;
 const $$createType3 = $Create.Array($$createType2);
 const $$createType4 = Task.createFrom;
 const $$createType5 = Result.createFrom;
-const $$createType6 = $Create.Array($Create.Any);
+const $$createType6 = Objective.createFrom;
+const $$createType7 = $Create.Array($$createType6);
+const $$createType8 = $Create.Array($Create.Any);

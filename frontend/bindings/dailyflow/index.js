@@ -12,6 +12,8 @@ export {
     AISettings,
     Day,
     Entry,
+    Objective,
+    Project,
     Result,
     Task
 } from "./models.js";
